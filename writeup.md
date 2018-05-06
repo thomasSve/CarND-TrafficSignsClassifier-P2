@@ -41,7 +41,7 @@ This should help prevent our model from over-fit on the classes with high labels
 
 The CNN model I have chosen to build, is a simple LeNet architecture with an added dropout layer before the last fully connected layers. Dropout is a technique used to improve over-fit models. And as I wanted to run a good amount of epochs on the training set, I wanted to have a dropout layer to avoid the model to overfit on the training set. 
 
-In summary the model has the following layers:
+In the end I ended up with a model with the following layers:
 
 
 | Layer # | Type | Input | Output | Activation
@@ -66,6 +66,12 @@ The model is trained with the following parameters:
 
 ### Results
 
+When training my model I first wanted to see how it performed running on the regular lenet architecture and without any image augmentation. Training the net I got a 0.92 on the test-set, which is still good but certain I could do better. I first added a dropout layer as I wanted to train the model for more epochs and was afraid to over fit on the training data. This improved the model a little, but not by much. Also, I noticed that the model very quickly found its optimized value and stopped improving just after 10-15 epochs. 
+Now I feared the model was just quickly generalizing on the classes with many samples, and wanted to add more samples following the description above. First I simply did two of the image augmentation, scale and translate, these did improve my model further giving me a 0.94 on the test set. This can be the result of the model is better at tuning on the lower samples classes. I wanted to test if I could improve this even further with augmentation and added the brightness and warp method as augmentation methods, and got the final result of 0.949 on the test set. 
+An almost 1 percentage improvement from the previous, which might be small in some cases, but when the model is so accurate already, each 1 percent gets harder and harder.
+
+This final model gave the end results:
+
 | Data set | Accuracy
 :-------------------------:|:-------------------------:
 Validation accuracy | 0.967
@@ -85,7 +91,8 @@ I found 5 random traffic signs from the world wide web that I wanted to test my 
 ![alt text](german_traffic_sign/images_stop.jpeg) <!-- .element height="250px" width="250px" --> | Speed limit (100 km/h) | Stop
 ![alt text](german_traffic_sign/pedestrian-crossing-sign.jpg) <!-- .element height="250px" width="250px" --> | No passing | Pedestrians
 
-As seen in the table above, the model got only 2 out of the 5 images correctly, giving it an accuracy of 0.4. This might be because the images I found on the web is very different from the ones in the training set, 
+As seen in the table above, the model got only 2 out of the 5 images correctly, giving it an accuracy of 0.4. This might be because the images I found on the web is very different from the ones in the training set and since the images I have chosen to download from the net are not quadratic and when cutting them down to 32x32, they might loose some of the clarity. For example looking at the 80 km sign, it is a picture originally 652x338 and when squeezing it down to 32x32 it turns out looking completely different and might make it harder for the model to predict on. Also, the training set is trained on only german traffic sign, and the standards there might look different from the ones I found. 
+
 
 Next I checked the top 5 probability for the new images. For the two correct images, it showed a 100% probability for the ones it got correct, and 99% sure on the pedestrian image. However for the stop sign and 80 km traffic sign, the model was very uncertain. 
 
